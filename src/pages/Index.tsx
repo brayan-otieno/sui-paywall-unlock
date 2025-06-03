@@ -38,22 +38,22 @@ const Index = () => {
   const totalConversions = paywalls.reduce((sum, p) => sum + p.conversions, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <header className="bg-white shadow-sm border-b">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900">
+      <header className="bg-slate-800/90 backdrop-blur-sm shadow-lg border-b border-cyan-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Wallet className="h-8 w-8 text-indigo-600" />
-                <h1 className="text-2xl font-bold text-gray-900">SUI Paywall</h1>
+                <Wallet className="h-8 w-8 text-cyan-400" />
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">SUI Paywall</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-400">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>
-              <Button onClick={() => setIsCreateDialogOpen(true)}>
+              <Button onClick={() => setIsCreateDialogOpen(true)} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white border-0">
                 <Plus className="h-4 w-4 mr-2" />
                 Create Paywall
               </Button>
@@ -64,47 +64,47 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Creator Dashboard</h2>
-          <p className="text-gray-600">Manage your paywalls and track your SUI earnings</p>
+          <h2 className="text-3xl font-bold text-white mb-2">Creator Dashboard</h2>
+          <p className="text-slate-300">Manage your paywalls and track your SUI earnings</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Earnings</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-slate-300">Total Earnings</CardTitle>
+              <BarChart3 className="h-4 w-4 text-cyan-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{totalEarnings.toFixed(2)} SUI</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold text-cyan-400">{totalEarnings.toFixed(2)} SUI</div>
+              <p className="text-xs text-slate-400">
                 ≈ ${(totalEarnings * 0.85).toFixed(2)} USD
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Views</CardTitle>
-              <Link className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-slate-300">Total Views</CardTitle>
+              <Link className="h-4 w-4 text-blue-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{totalViews}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold text-blue-400">{totalViews}</div>
+              <p className="text-xs text-slate-400">
                 Across all paywalls
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-slate-300">Conversion Rate</CardTitle>
+              <BarChart3 className="h-4 w-4 text-emerald-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold text-emerald-400">
                 {totalViews > 0 ? ((totalConversions / totalViews) * 100).toFixed(1) : 0}%
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-400">
                 {totalConversions} conversions
               </p>
             </CardContent>
@@ -112,16 +112,16 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="paywalls" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="paywalls">My Paywalls</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsList className="bg-slate-800/50 border-slate-700/50">
+            <TabsTrigger value="paywalls" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white text-slate-300">My Paywalls</TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-cyan-600 data-[state=active]:text-white text-slate-300">Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="paywalls">
-            <Card>
+            <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle>Your Paywalls</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-white">Your Paywalls</CardTitle>
+                <CardDescription className="text-slate-400">
                   Manage your content paywalls and track performance
                 </CardDescription>
               </CardHeader>
@@ -132,10 +132,10 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="analytics">
-            <Card>
+            <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle>Revenue Analytics</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-white">Revenue Analytics</CardTitle>
+                <CardDescription className="text-slate-400">
                   Track your earnings over time
                 </CardDescription>
               </CardHeader>

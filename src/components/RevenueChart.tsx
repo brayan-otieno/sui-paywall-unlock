@@ -16,25 +16,33 @@ export const RevenueChart = () => {
     <div className="h-80">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
           <XAxis 
             dataKey="date" 
             tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            stroke="#94a3b8"
           />
           <YAxis 
             tickFormatter={(value) => `${value} SUI`}
+            stroke="#94a3b8"
           />
           <Tooltip 
             labelFormatter={(value) => new Date(value).toLocaleDateString()}
             formatter={(value: number) => [`${value} SUI`, 'Earnings']}
+            contentStyle={{
+              backgroundColor: '#1e293b',
+              border: '1px solid #475569',
+              borderRadius: '8px',
+              color: '#e2e8f0'
+            }}
           />
           <Line 
             type="monotone" 
             dataKey="earnings" 
-            stroke="#6366f1" 
+            stroke="#06b6d4" 
             strokeWidth={3}
-            dot={{ fill: '#6366f1', strokeWidth: 2, r: 4 }}
-            activeDot={{ r: 6 }}
+            dot={{ fill: '#06b6d4', strokeWidth: 2, r: 4 }}
+            activeDot={{ r: 6, fill: '#0891b2' }}
           />
         </LineChart>
       </ResponsiveContainer>
