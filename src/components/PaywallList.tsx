@@ -46,11 +46,11 @@ export const PaywallList = ({ paywalls }: PaywallListProps) => {
   if (paywalls.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="mb-4" style={{ color: '#666666' }}>
+        <div className="mb-4 text-muted-foreground">
           <TrendingUp className="h-12 w-12 mx-auto" />
         </div>
-        <h3 className="text-lg font-medium mb-2" style={{ color: '#333333' }}>No paywalls yet</h3>
-        <p style={{ color: '#666666' }}>Create your first paywall to start earning SUI</p>
+        <h3 className="text-lg font-medium mb-2 text-foreground">No paywalls yet</h3>
+        <p className="text-muted-foreground">Create your first paywall to start earning SUI</p>
       </div>
     );
   }
@@ -58,18 +58,17 @@ export const PaywallList = ({ paywalls }: PaywallListProps) => {
   return (
     <div className="space-y-4">
       {paywalls.map((paywall) => (
-        <Card key={paywall.id} className="hover:shadow-lg transition-shadow bg-white border-gray-200">
+        <Card key={paywall.id} className="hover:shadow-lg transition-shadow bg-card border-border">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <CardTitle className="text-lg" style={{ color: '#333333' }}>{paywall.title}</CardTitle>
-                <CardDescription style={{ color: '#666666' }}>Created {paywall.created}</CardDescription>
+                <CardTitle className="text-lg text-foreground">{paywall.title}</CardTitle>
+                <CardDescription className="text-muted-foreground">Created {paywall.created}</CardDescription>
               </div>
               <div className="flex items-center space-x-2">
                 <Badge 
                   variant="secondary" 
-                  className="text-white border-0"
-                  style={{ backgroundColor: '#2962FF' }}
+                  className="text-white border-0 bg-[#2962FF]"
                 >
                   {paywall.price} {paywall.currency}
                 </Badge>
@@ -78,25 +77,22 @@ export const PaywallList = ({ paywalls }: PaywallListProps) => {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="hover:bg-gray-100"
-                      style={{ color: '#666666' }}
+                      className="hover:bg-accent text-muted-foreground"
                     >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-white border-gray-200">
+                  <DropdownMenuContent align="end" className="bg-card border-border">
                     <DropdownMenuItem 
                       onClick={() => copyLink(paywall.title)} 
-                      className="hover:bg-gray-50"
-                      style={{ color: '#333333' }}
+                      className="hover:bg-accent text-foreground"
                     >
                       <Copy className="h-4 w-4 mr-2" />
                       Copy Link
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => openPaywall(paywall.title)} 
-                      className="hover:bg-gray-50"
-                      style={{ color: '#333333' }}
+                      className="hover:bg-accent text-foreground"
                     >
                       <ExternalLink className="h-4 w-4 mr-2" />
                       Open Paywall
@@ -109,23 +105,23 @@ export const PaywallList = ({ paywalls }: PaywallListProps) => {
           <CardContent>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <div className="text-2xl font-bold" style={{ color: '#2962FF' }}>
+                <div className="text-2xl font-bold text-[#2962FF]">
                   {paywall.earnings} SUI
                 </div>
-                <div className="text-sm" style={{ color: '#666666' }}>Earnings</div>
+                <div className="text-sm text-muted-foreground">Earnings</div>
               </div>
               <div>
-                <div className="text-2xl font-bold flex items-center justify-center" style={{ color: '#6A1B9A' }}>
+                <div className="text-2xl font-bold flex items-center justify-center text-[#6A1B9A]">
                   <Eye className="h-5 w-5 mr-1" />
                   {paywall.views}
                 </div>
-                <div className="text-sm" style={{ color: '#666666' }}>Views</div>
+                <div className="text-sm text-muted-foreground">Views</div>
               </div>
               <div>
-                <div className="text-2xl font-bold" style={{ color: '#4CAF50' }}>
+                <div className="text-2xl font-bold text-[#4CAF50]">
                   {paywall.views > 0 ? ((paywall.conversions / paywall.views) * 100).toFixed(1) : 0}%
                 </div>
-                <div className="text-sm" style={{ color: '#666666' }}>Conversion</div>
+                <div className="text-sm text-muted-foreground">Conversion</div>
               </div>
             </div>
           </CardContent>

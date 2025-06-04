@@ -3,12 +3,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Link, BarChart3, Settings, Wallet } from "lucide-react";
+import { Plus, Link, BarChart3, Settings, Wallet, Moon, Sun } from "lucide-react";
 import { CreatePaywallDialog } from "@/components/CreatePaywallDialog";
 import { PaywallList } from "@/components/PaywallList";
 import { RevenueChart } from "@/components/RevenueChart";
+import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 
-const Index = () => {
+const DashboardContent = () => {
+  const { theme, toggleTheme } = useTheme();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [paywalls, setPaywalls] = useState([
     {
@@ -38,30 +40,36 @@ const Index = () => {
   const totalConversions = paywalls.reduce((sum, p) => sum + p.conversions, 0);
 
   return (
-    <div className="min-h-screen" style={{ background: '#F9FAFB' }}>
-      <header className="bg-white shadow-sm border-b border-gray-200">
+    <div className="min-h-screen bg-background">
+      <header className="bg-card shadow-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Wallet className="h-8 w-8" style={{ color: '#2962FF' }} />
-                <h1 className="text-2xl font-bold" style={{ color: '#333333' }}>SUI Paywall</h1>
+                <Wallet className="h-8 w-8 text-[#2962FF]" />
+                <h1 className="text-2xl font-bold text-foreground">SUI Paywall</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={toggleTheme}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+              <Button 
                 variant="outline" 
                 size="sm" 
-                className="border-gray-300 hover:bg-gray-50"
-                style={{ color: '#666666' }}
+                className="text-muted-foreground hover:text-foreground"
               >
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>
               <Button 
                 onClick={() => setIsCreateDialogOpen(true)} 
-                className="text-white border-0"
-                style={{ backgroundColor: '#2962FF' }}
+                className="text-white border-0 bg-[#2962FF] hover:bg-[#2962FF]/90"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Create Paywall
@@ -73,47 +81,47 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2" style={{ color: '#333333' }}>Creator Dashboard</h2>
-          <p style={{ color: '#666666' }}>Manage your paywalls and track your SUI earnings</p>
+          <h2 className="text-3xl font-bold mb-2 text-foreground">Creator Dashboard</h2>
+          <p className="text-muted-foreground">Manage your paywalls and track your SUI earnings</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-white border-gray-200 shadow-sm">
+          <Card className="bg-card border-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#666666' }}>Total Earnings</CardTitle>
-              <BarChart3 className="h-4 w-4" style={{ color: '#2962FF' }} />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Total Earnings</CardTitle>
+              <BarChart3 className="h-4 w-4 text-[#2962FF]" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#2962FF' }}>{totalEarnings.toFixed(2)} SUI</div>
-              <p className="text-xs" style={{ color: '#666666' }}>
+              <div className="text-2xl font-bold text-[#2962FF]">{totalEarnings.toFixed(2)} SUI</div>
+              <p className="text-xs text-muted-foreground">
                 ≈ ${(totalEarnings * 0.85).toFixed(2)} USD
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-gray-200 shadow-sm">
+          <Card className="bg-card border-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#666666' }}>Total Views</CardTitle>
-              <Link className="h-4 w-4" style={{ color: '#6A1B9A' }} />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Total Views</CardTitle>
+              <Link className="h-4 w-4 text-[#6A1B9A]" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#6A1B9A' }}>{totalViews}</div>
-              <p className="text-xs" style={{ color: '#666666' }}>
+              <div className="text-2xl font-bold text-[#6A1B9A]">{totalViews}</div>
+              <p className="text-xs text-muted-foreground">
                 Across all paywalls
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-gray-200 shadow-sm">
+          <Card className="bg-card border-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#666666' }}>Conversion Rate</CardTitle>
-              <BarChart3 className="h-4 w-4" style={{ color: '#4CAF50' }} />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Conversion Rate</CardTitle>
+              <BarChart3 className="h-4 w-4 text-[#4CAF50]" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#4CAF50' }}>
+              <div className="text-2xl font-bold text-[#4CAF50]">
                 {totalViews > 0 ? ((totalConversions / totalViews) * 100).toFixed(1) : 0}%
               </div>
-              <p className="text-xs" style={{ color: '#666666' }}>
+              <p className="text-xs text-muted-foreground">
                 {totalConversions} conversions
               </p>
             </CardContent>
@@ -121,32 +129,22 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="paywalls" className="space-y-6">
-          <TabsList className="bg-gray-100">
+          <TabsList className="bg-muted">
             <TabsTrigger 
               value="paywalls" 
-              className="data-[state=active]:text-white"
-              style={{ 
-                backgroundColor: 'transparent',
-                color: '#666666',
-                '&[data-state=active]': { backgroundColor: '#2962FF' }
-              }}
+              className="text-muted-foreground data-[state=active]:bg-[#2962FF] data-[state=active]:text-white"
             >My Paywalls</TabsTrigger>
             <TabsTrigger 
               value="analytics" 
-              className="data-[state=active]:text-white"
-              style={{ 
-                backgroundColor: 'transparent',
-                color: '#666666',
-                '&[data-state=active]': { backgroundColor: '#2962FF' }
-              }}
+              className="text-muted-foreground data-[state=active]:bg-[#2962FF] data-[state=active]:text-white"
             >Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="paywalls">
-            <Card className="bg-white border-gray-200 shadow-sm">
+            <Card className="bg-card border-border shadow-sm">
               <CardHeader>
-                <CardTitle style={{ color: '#333333' }}>Your Paywalls</CardTitle>
-                <CardDescription style={{ color: '#666666' }}>
+                <CardTitle className="text-foreground">Your Paywalls</CardTitle>
+                <CardDescription className="text-muted-foreground">
                   Manage your content paywalls and track performance
                 </CardDescription>
               </CardHeader>
@@ -157,10 +155,10 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="analytics">
-            <Card className="bg-white border-gray-200 shadow-sm">
+            <Card className="bg-card border-border shadow-sm">
               <CardHeader>
-                <CardTitle style={{ color: '#333333' }}>Revenue Analytics</CardTitle>
-                <CardDescription style={{ color: '#666666' }}>
+                <CardTitle className="text-foreground">Revenue Analytics</CardTitle>
+                <CardDescription className="text-muted-foreground">
                   Track your earnings over time
                 </CardDescription>
               </CardHeader>
@@ -181,6 +179,14 @@ const Index = () => {
         }}
       />
     </div>
+  );
+};
+
+const Index = () => {
+  return (
+    <ThemeProvider>
+      <DashboardContent />
+    </ThemeProvider>
   );
 };
 
