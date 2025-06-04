@@ -1,5 +1,3 @@
-Here’s your updated README with attractive and relevant emojis added to make it more visually engaging:
-
 ---
 
 # 🔓 Sui-paywall-unlock
