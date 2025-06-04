@@ -1,5 +1,3 @@
----
-
 # 🔓 Sui-paywall-unlock
 
 ## 📖 About The Project
