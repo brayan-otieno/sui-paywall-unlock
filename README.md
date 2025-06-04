@@ -2,11 +2,11 @@ Here’s your updated README with attractive and relevant emojis added to make i
 
 ---
 
-# 🔓 sui-paywall-unlock
+# 🔓 Sui-paywall-unlock
 
 ## 📖 About The Project
 
-**sui-paywall-unlock** is a **permissionless unlock mechanism** for gated content or features on the **Sui blockchain** 🔗.
+**Sui-paywall-unlock** is a **permissionless unlock mechanism** for gated content or features on the **Sui blockchain** 🔗.
 It enables developers to create **paywalled experiences** where access is granted based on **asset ownership**, **token payments**, or other **on-chain conditions** — without relying on centralized servers or services.
 
 🎯 Ideal for **dApps**, **digital content**, and **access control**.
