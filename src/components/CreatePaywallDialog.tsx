@@ -88,40 +88,42 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] bg-white">
         {!isCreated ? (
           <>
             <DialogHeader>
-              <DialogTitle>Create New Paywall</DialogTitle>
-              <DialogDescription>
+              <DialogTitle style={{ color: '#333333' }}>Create New Paywall</DialogTitle>
+              <DialogDescription style={{ color: '#666666' }}>
                 Set up a new paywall for your content. Users will pay in SUI to unlock it.
               </DialogDescription>
             </DialogHeader>
             
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="title">Title *</Label>
+                <Label htmlFor="title" style={{ color: '#333333' }}>Title *</Label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g., Premium Tutorial Series"
+                  className="border-gray-300 focus:border-blue-500"
                 />
               </div>
               
               <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description" style={{ color: '#333333' }}>Description</Label>
                 <Textarea
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Brief description of what users will get..."
                   rows={3}
+                  className="border-gray-300 focus:border-blue-500"
                 />
               </div>
               
               <div className="grid gap-2">
-                <Label htmlFor="price">Price (SUI) *</Label>
+                <Label htmlFor="price" style={{ color: '#333333' }}>Price (SUI) *</Label>
                 <Input
                   id="price"
                   type="number"
@@ -129,26 +131,32 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="5.0"
+                  className="border-gray-300 focus:border-blue-500"
                 />
               </div>
               
               <div className="grid gap-2">
-                <Label htmlFor="content">Protected Content *</Label>
+                <Label htmlFor="content" style={{ color: '#333333' }}>Protected Content *</Label>
                 <Textarea
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="This is the content that will be unlocked after payment..."
                   rows={4}
+                  className="border-gray-300 focus:border-blue-500"
                 />
               </div>
             </div>
             
             <DialogFooter>
-              <Button variant="outline" onClick={handleClose}>
+              <Button variant="outline" onClick={handleClose} className="border-gray-300 hover:bg-gray-50">
                 Cancel
               </Button>
-              <Button onClick={handleCreate}>
+              <Button 
+                onClick={handleCreate}
+                className="text-white border-0"
+                style={{ backgroundColor: '#2962FF' }}
+              >
                 Create Paywall
               </Button>
             </DialogFooter>
@@ -156,24 +164,29 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Paywall Created Successfully!</DialogTitle>
-              <DialogDescription>
+              <DialogTitle style={{ color: '#333333' }}>Paywall Created Successfully!</DialogTitle>
+              <DialogDescription style={{ color: '#666666' }}>
                 Your paywall is ready. Share this link with your audience.
               </DialogDescription>
             </DialogHeader>
             
-            <Card>
+            <Card className="bg-white border-gray-200">
               <CardHeader>
-                <CardTitle className="text-lg">{title}</CardTitle>
-                <CardDescription>Price: {price} SUI</CardDescription>
+                <CardTitle className="text-lg" style={{ color: '#333333' }}>{title}</CardTitle>
+                <CardDescription style={{ color: '#666666' }}>Price: {price} SUI</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
-                  <code className="flex-1 text-sm font-mono break-all">{paywallUrl}</code>
-                  <Button size="sm" variant="outline" onClick={copyToClipboard}>
+                <div className="flex items-center space-x-2 p-3 rounded-lg" style={{ backgroundColor: '#F9FAFB' }}>
+                  <code className="flex-1 text-sm font-mono break-all" style={{ color: '#333333' }}>{paywallUrl}</code>
+                  <Button size="sm" variant="outline" onClick={copyToClipboard} className="border-gray-300">
                     <Copy className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" onClick={() => window.open(paywallUrl, '_blank')}>
+                  <Button 
+                    size="sm" 
+                    onClick={() => window.open(paywallUrl, '_blank')}
+                    className="text-white border-0"
+                    style={{ backgroundColor: '#2962FF' }}
+                  >
                     <ExternalLink className="h-4 w-4" />
                   </Button>
                 </div>
@@ -181,7 +194,11 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
             </Card>
             
             <DialogFooter>
-              <Button onClick={handleClose}>
+              <Button 
+                onClick={handleClose}
+                className="text-white border-0"
+                style={{ backgroundColor: '#2962FF' }}
+              >
                 Done
               </Button>
             </DialogFooter>
