@@ -2,7 +2,7 @@
 
 ## About The Project
 
-(Please add a brief description of your project here! What problem does it solve? What is its main purpose?)
+sui-paywall-unlock is a permissionless unlock mechanism for gated content or features on the Sui blockchain. It enables developers to create paywalled experiences where access is granted based on asset ownership, token payments, or other on-chain conditions—without relying on centralized servers or services. Ideal for dApps, digital content, and access control.
 
 ### Built With
 
