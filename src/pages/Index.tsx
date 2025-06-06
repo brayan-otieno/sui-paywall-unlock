@@ -1,17 +1,21 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Link, BarChart3, Settings, Wallet, Moon, Sun } from "lucide-react";
+import { Plus, Link, BarChart3, Settings, Wallet, Moon, Sun, LogOut } from "lucide-react";
 import { CreatePaywallDialog } from "@/components/CreatePaywallDialog";
 import { PaywallList } from "@/components/PaywallList";
 import { RevenueChart } from "@/components/RevenueChart";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const DashboardContent = () => {
   const { theme, toggleTheme } = useTheme();
+  const { userEmail, logout } = useAuth();
+  const navigate = useNavigate();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  
   const [paywalls, setPaywalls] = useState([
     {
       id: "1",
@@ -39,6 +43,11 @@ const DashboardContent = () => {
   const totalViews = paywalls.reduce((sum, p) => sum + p.views, 0);
   const totalConversions = paywalls.reduce((sum, p) => sum + p.conversions, 0);
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-card shadow-sm border-b border-border">
@@ -51,6 +60,7 @@ const DashboardContent = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <span className="text-sm text-muted-foreground">{userEmail}</span>
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -66,6 +76,15 @@ const DashboardContent = () => {
               >
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleLogout}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
               </Button>
               <Button 
                 onClick={() => setIsCreateDialogOpen(true)} 
