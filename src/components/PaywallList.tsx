@@ -29,8 +29,8 @@ interface PaywallListProps {
 export const PaywallList = ({ paywalls }: PaywallListProps) => {
   const { toast } = useToast();
 
-  const copyLink = (title: string) => {
-    const url = `${window.location.origin}/paywall/${btoa(title.replace(/\s+/g, '-').toLowerCase())}`;
+  const copyLink = (id: string) => {
+    const url = `${window.location.origin}/paywall/${id}`;
     navigator.clipboard.writeText(url);
     toast({
       title: "Link copied!",
@@ -38,8 +38,8 @@ export const PaywallList = ({ paywalls }: PaywallListProps) => {
     });
   };
 
-  const openPaywall = (title: string) => {
-    const url = `${window.location.origin}/paywall/${btoa(title.replace(/\s+/g, '-').toLowerCase())}`;
+  const openPaywall = (id: string) => {
+    const url = `${window.location.origin}/paywall/${id}`;
     window.open(url, '_blank');
   };
 
@@ -84,14 +84,14 @@ export const PaywallList = ({ paywalls }: PaywallListProps) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="bg-card border-border">
                     <DropdownMenuItem 
-                      onClick={() => copyLink(paywall.title)} 
+                      onClick={() => copyLink(paywall.id)} 
                       className="hover:bg-accent text-foreground"
                     >
                       <Copy className="h-4 w-4 mr-2" />
                       Copy Link
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => openPaywall(paywall.title)} 
+                      onClick={() => openPaywall(paywall.id)} 
                       className="hover:bg-accent text-foreground"
                     >
                       <ExternalLink className="h-4 w-4 mr-2" />
