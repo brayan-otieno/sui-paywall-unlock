@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -8,19 +9,42 @@ import { Wallet, Lock, Unlock, CheckCircle, XCircle } from "lucide-react";
 import { useWallet } from "@/contexts/WalletContext";
 import { usePayment } from "@/contexts/PaymentContext";
 import { useToast } from "@/hooks/use-toast";
+=======
+import { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Wallet, Lock, Unlock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { useWallet } from "@/contexts/WalletContext";
+import { usePayment } from "@/contexts/PaymentContext";
+import { useToast } from "@/hooks/use-toast";
+import { apiClient } from "@/lib/api";
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 
 type PaywallData = {
   id: string;
   title: string;
+<<<<<<< HEAD
   description: string;
   price: number;
   currency: string;
   content: string;
   creatorEmail: string;
+=======
+  description?: string;
+  price: number;
+  currency: string;
+  content?: string;
+  creator_email: string;
+  has_access: boolean;
+  created_at: string;
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 };
 
 const Paywall = () => {
   const { id } = useParams<{ id: string }>();
+<<<<<<< HEAD
   const { isConnected, walletAddress, connectWallet } = useWallet();
   const { processPayment, verifyPayment } = usePayment();
   const { toast } = useToast();
@@ -48,16 +72,80 @@ const Paywall = () => {
       setHasAccess(hasPayment);
     }
   }, [id, walletAddress, verifyPayment]);
+=======
+  const [searchParams] = useSearchParams();
+  const { isConnected, walletAddress, connectWallet } = useWallet();
+  const { processPayment, verifyPayment, loading: paymentLoading } = usePayment();
+  const { toast } = useToast();
+  const [paywall, setPaywall] = useState<PaywallData | null>(null);
+  const [hasAccess, setHasAccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      loadPaywall();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    // Check for payment status in URL params
+    const paymentStatus = searchParams.get('payment');
+    if (paymentStatus === 'success') {
+      toast({
+        title: "Payment Successful!",
+        description: "You now have access to this content.",
+      });
+      // Reload paywall to get updated access status
+      if (id) {
+        loadPaywall();
+      }
+    } else if (paymentStatus === 'cancelled') {
+      toast({
+        title: "Payment Cancelled",
+        description: "Your payment was cancelled.",
+        variant: "destructive",
+      });
+    }
+  }, [searchParams, id, toast]);
+
+  const loadPaywall = async () => {
+    if (!id) return;
+    
+    try {
+      setLoading(true);
+      const response = await apiClient.getPaywall(id);
+      setPaywall(response.paywall);
+      setHasAccess(response.paywall.has_access);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load paywall",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 
   const handlePayment = async () => {
     if (!isConnected || !walletAddress || !paywall) return;
 
     setIsProcessing(true);
     try {
+<<<<<<< HEAD
       const payment = await processPayment(paywall.id, paywall.price, walletAddress);
       
       if (payment.status === 'success') {
         setHasAccess(true);
+=======
+      const result = await processPayment(paywall.id, walletAddress);
+      
+      if (result.success) {
+        setHasAccess(true);
+        await loadPaywall(); // Reload to get content
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
         toast({
           title: "Payment Successful!",
           description: "You now have access to this content.",
@@ -65,7 +153,11 @@ const Paywall = () => {
       } else {
         toast({
           title: "Payment Failed",
+<<<<<<< HEAD
           description: "Please try again.",
+=======
+          description: result.error || "Please try again.",
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
           variant: "destructive",
         });
       }
@@ -80,16 +172,41 @@ const Paywall = () => {
     }
   };
 
+<<<<<<< HEAD
   if (!paywall) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
+=======
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2962FF] mx-auto mb-4"></div>
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
           <div className="text-lg">Loading paywall...</div>
         </div>
       </div>
     );
   }
 
+<<<<<<< HEAD
+=======
+  if (!paywall) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="bg-card border-border shadow-lg max-w-md w-full mx-4">
+          <CardContent className="text-center py-8">
+            <XCircle className="h-12 w-12 mx-auto text-destructive mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Paywall Not Found</h2>
+            <p className="text-muted-foreground">The requested paywall could not be found.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-card shadow-sm border-b border-border">
@@ -125,9 +242,20 @@ const Paywall = () => {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <CardTitle className="text-2xl text-foreground mb-2">{paywall.title}</CardTitle>
+<<<<<<< HEAD
                 <CardDescription className="text-muted-foreground text-base">
                   {paywall.description}
                 </CardDescription>
+=======
+                {paywall.description && (
+                  <CardDescription className="text-muted-foreground text-base">
+                    {paywall.description}
+                  </CardDescription>
+                )}
+                <div className="mt-4 text-sm text-muted-foreground">
+                  Created by {paywall.creator_email}
+                </div>
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
               </div>
               <Badge className="bg-[#2962FF] text-white text-lg px-3 py-1">
                 {paywall.price} {paywall.currency}
@@ -169,11 +297,19 @@ const Paywall = () => {
                   ) : (
                     <Button 
                       onClick={handlePayment} 
+<<<<<<< HEAD
                       disabled={isProcessing}
                       size="lg"
                       className="bg-[#4CAF50] hover:bg-[#4CAF50]/90"
                     >
                       {isProcessing ? (
+=======
+                      disabled={isProcessing || paymentLoading}
+                      size="lg"
+                      className="bg-[#4CAF50] hover:bg-[#4CAF50]/90"
+                    >
+                      {isProcessing || paymentLoading ? (
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
                         <>
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                           Processing...
@@ -187,6 +323,18 @@ const Paywall = () => {
                     </Button>
                   )}
                 </div>
+<<<<<<< HEAD
+=======
+
+                {isConnected && (
+                  <div className="text-center">
+                    <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                      <AlertCircle className="h-4 w-4" />
+                      <span>Secure payment powered by Swypt</span>
+                    </div>
+                  </div>
+                )}
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
               </div>
             )}
           </CardContent>
@@ -196,4 +344,8 @@ const Paywall = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Paywall;
+=======
+export default Paywall;
+>>>>>>> 139731a (Initial backend implementation and simple authentication)

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +22,16 @@ import { useToast } from "@/hooks/use-toast";
 interface CreatePaywallDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+<<<<<<< HEAD
   onCreatePaywall: (paywall: any) => void;
+=======
+  onCreatePaywall: (paywall: {
+    title: string;
+    description?: string;
+    price: number;
+    content: string;
+  }) => Promise<void>;
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 }
 
 export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: CreatePaywallDialogProps) => {
@@ -27,11 +39,19 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [content, setContent] = useState("");
+<<<<<<< HEAD
+=======
+  const [isCreating, setIsCreating] = useState(false);
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
   const [isCreated, setIsCreated] = useState(false);
   const [paywallUrl, setPaywallUrl] = useState("");
   const { toast } = useToast();
 
+<<<<<<< HEAD
   const handleCreate = () => {
+=======
+  const handleCreate = async () => {
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
     if (!title || !price || !content) {
       toast({
         title: "Missing fields",
@@ -41,6 +61,7 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
       return;
     }
 
+<<<<<<< HEAD
     const newPaywall = {
       title,
       description,
@@ -62,6 +83,36 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
       title: "Paywall created!",
       description: "Your paywall link is ready to share",
     });
+=======
+    const priceNum = parseFloat(price);
+    if (isNaN(priceNum) || priceNum <= 0) {
+      toast({
+        title: "Invalid price",
+        description: "Please enter a valid price",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsCreating(true);
+    try {
+      await onCreatePaywall({
+        title,
+        description: description || undefined,
+        price: priceNum,
+        content,
+      });
+
+      // Generate URL (this would be the actual paywall ID in real implementation)
+      const url = `${window.location.origin}/paywall/${btoa(title.replace(/\s+/g, '-').toLowerCase())}`;
+      setPaywallUrl(url);
+      setIsCreated(true);
+    } catch (error) {
+      // Error is handled by the parent component
+    } finally {
+      setIsCreating(false);
+    }
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
   };
 
   const copyToClipboard = () => {
@@ -79,6 +130,10 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
     setContent("");
     setIsCreated(false);
     setPaywallUrl("");
+<<<<<<< HEAD
+=======
+    setIsCreating(false);
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
   };
 
   const handleClose = () => {
@@ -127,7 +182,12 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
                 <Input
                   id="price"
                   type="number"
+<<<<<<< HEAD
                   step="0.1"
+=======
+                  step="0.0001"
+                  min="0"
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="5.0"
@@ -154,10 +214,18 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
               </Button>
               <Button 
                 onClick={handleCreate}
+<<<<<<< HEAD
                 className="text-white border-0"
                 style={{ backgroundColor: '#2962FF' }}
               >
                 Create Paywall
+=======
+                disabled={isCreating}
+                className="text-white border-0"
+                style={{ backgroundColor: '#2962FF' }}
+              >
+                {isCreating ? "Creating..." : "Create Paywall"}
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
               </Button>
             </DialogFooter>
           </>
@@ -207,4 +275,8 @@ export const CreatePaywallDialog = ({ open, onOpenChange, onCreatePaywall }: Cre
       </DialogContent>
     </Dialog>
   );
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 139731a (Initial backend implementation and simple authentication)

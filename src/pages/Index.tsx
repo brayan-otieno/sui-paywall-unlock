@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+import { useState, useEffect } from "react";
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +13,7 @@ import { RevenueChart } from "@/components/RevenueChart";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 
 const DashboardContent = () => {
   const { theme, toggleTheme } = useTheme();
@@ -42,12 +47,106 @@ const DashboardContent = () => {
   const totalEarnings = paywalls.reduce((sum, p) => sum + parseFloat(p.earnings), 0);
   const totalViews = paywalls.reduce((sum, p) => sum + p.views, 0);
   const totalConversions = paywalls.reduce((sum, p) => sum + p.conversions, 0);
+=======
+import { apiClient } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
+
+type Paywall = {
+  id: string;
+  title: string;
+  description?: string;
+  price: number;
+  currency: string;
+  created_at: string;
+  total_earnings: number;
+  total_views: number;
+  total_conversions: number;
+};
+
+const DashboardContent = () => {
+  const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [paywalls, setPaywalls] = useState<Paywall[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadPaywalls();
+  }, []);
+
+  const loadPaywalls = async () => {
+    try {
+      setLoading(true);
+      const response = await apiClient.getMyPaywalls();
+      setPaywalls(response.paywalls);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load paywalls",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Defensive: ensure paywalls is always an array of valid objects with numbers
+  const safePaywalls = Array.isArray(paywalls) ? paywalls.filter(p => p && typeof p.total_earnings === 'number' && typeof p.total_views === 'number' && typeof p.total_conversions === 'number') : [];
+  const totalEarnings = safePaywalls.reduce((sum, p) => sum + p.total_earnings, 0);
+  const totalViews = safePaywalls.reduce((sum, p) => sum + p.total_views, 0);
+  const totalConversions = safePaywalls.reduce((sum, p) => sum + p.total_conversions, 0);
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+<<<<<<< HEAD
+=======
+  const handleCreatePaywall = async (paywallData: {
+    title: string;
+    description?: string;
+    price: number;
+    content: string;
+  }) => {
+    try {
+      await apiClient.createPaywall({
+        ...paywallData,
+        currency: 'SUI'
+      });
+      
+      toast({
+        title: "Success",
+        description: "Paywall created successfully!",
+      });
+      
+      // Reload paywalls
+      await loadPaywalls();
+      setIsCreateDialogOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to create paywall",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2962FF] mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-card shadow-sm border-b border-border">
@@ -60,7 +159,11 @@ const DashboardContent = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+<<<<<<< HEAD
               <span className="text-sm text-muted-foreground">{userEmail}</span>
+=======
+              <span className="text-sm text-muted-foreground">{user?.email}</span>
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -111,7 +214,11 @@ const DashboardContent = () => {
               <BarChart3 className="h-4 w-4 text-[#2962FF]" />
             </CardHeader>
             <CardContent>
+<<<<<<< HEAD
               <div className="text-2xl font-bold text-[#2962FF]">{totalEarnings.toFixed(2)} SUI</div>
+=======
+              <div className="text-2xl font-bold text-[#2962FF]">{totalEarnings.toFixed(4)} SUI</div>
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
               <p className="text-xs text-muted-foreground">
                 ≈ ${(totalEarnings * 0.85).toFixed(2)} USD
               </p>
@@ -192,10 +299,14 @@ const DashboardContent = () => {
       <CreatePaywallDialog 
         open={isCreateDialogOpen}
         onOpenChange={setIsCreateDialogOpen}
+<<<<<<< HEAD
         onCreatePaywall={(newPaywall) => {
           setPaywalls([...paywalls, { ...newPaywall, id: Date.now().toString() }]);
           setIsCreateDialogOpen(false);
         }}
+=======
+        onCreatePaywall={handleCreatePaywall}
+>>>>>>> 139731a (Initial backend implementation and simple authentication)
       />
     </div>
   );
@@ -209,4 +320,8 @@ const Index = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Index;
+=======
+export default Index;
+>>>>>>> 139731a (Initial backend implementation and simple authentication)

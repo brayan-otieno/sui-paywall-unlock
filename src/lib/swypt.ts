@@ -1,0 +1,1 @@
+// This file is now obsolete and can be safely deleted. All Swypt Checkout logic is handled by the official React SDK in PaymentContext.
